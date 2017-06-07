@@ -6,15 +6,15 @@
        xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
        xmlns:security="http://www.springframework.org/schema/security"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-  		    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+  		    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
   		    http://www.springframework.org/schema/context
-  		    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+  		    http://www.springframework.org/schema/context/spring-context-4.1.xsd
   		    http://www.springframework.org/schema/mvc
   		    http://www.springframework.org/schema/mvc/spring-mvc.xsd
   		    http://www.springframework.org/schema/security/oauth2
-  		    http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd
+  		    http://www.springframework.org/schema/security/spring-security-oauth2-2.0.10.xsd
   		    http://www.springframework.org/schema/security
-  		    http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+  		    http://www.springframework.org/schema/security/spring-security-4.1.xsd">
     <!--
                     http://www.springframework.org/schema/security
                     http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
@@ -104,7 +104,7 @@
     </security:http>
     <!--User Login Page used prior to Authorization Code Grant Type-->
     <!--TODO Currently using form-login, replace with custom login form-->
-    <http access-denied-page="/login.jsp?authorization_error=true" disable-url-rewriting="true"
+    <http disable-url-rewriting="true"
           xmlns="http://www.springframework.org/schema/security">
         <intercept-url pattern="/ws/oauth/**" access="ROLE_USER"/>
         <intercept-url pattern="/ws/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
@@ -166,8 +166,8 @@
     <!--Verifies is user has authorized the client and then the token has been issued-->
     <!--==================================================================================-->
     <bean id="userApprovalHandler"
-          class="org.springframework.security.oauth2.provider.approval.TokenServicesUserApprovalHandler">
-        <property name="tokenServices" ref="tokenServices"/>
+          class="org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler">
+        <property name="tokenStore" ref="tokenServices"/>
     </bean>
     <!--==============================-->
     <!--OAuth2 Authorization Server-->
