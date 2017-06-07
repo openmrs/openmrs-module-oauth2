@@ -239,6 +239,11 @@ public class Client implements ClientDetails {
     }
 
     @Override
+    public boolean isAutoApprove(String s) {
+        return false;
+    }
+
+    @Override
     public Map<String, Object> getAdditionalInformation() {
         return additionalInformation;
     }
