@@ -28,9 +28,9 @@ public class AdminList extends AdministrationSectionExt {
 	/**
 	 * @see AdministrationSectionExt#getMediaType()
 	 */
-	public Extension.MEDIA_TYPE getMediaType() {
-		return Extension.MEDIA_TYPE.html;
-	}
+	//public Extension.MEDIA_TYPE getMediaType() {
+	//	return MEDIA_TYPE.html;
+//	}
 
 	/**
 	 * @see AdministrationSectionExt#getTitle()
