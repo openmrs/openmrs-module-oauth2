@@ -58,7 +58,7 @@
         <property name="moduleService">
             <list merge="true">
                 <value>${project.parent.groupId}.${project.parent.artifactId}.api.ClientRegistrationService</value>
-                <ref local="clientRegistrationService"/>
+                <ref bean="clientRegistrationService"/>
             </list>
         </property>
     </bean>
