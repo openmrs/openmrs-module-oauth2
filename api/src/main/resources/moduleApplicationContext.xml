@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-  		    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+  		    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
 
     <!-- Add here beans related to the API context -->
 
@@ -39,7 +42,7 @@
     </bean>
     <!--client registration service-->
     <bean id="clientRegistrationService"
-          class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+              class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager">
             <ref bean="transactionManager"/>
         </property>
@@ -64,4 +67,6 @@
     </bean>
 
 
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

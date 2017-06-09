@@ -145,6 +145,7 @@
                 <version>4.1.4.RELEASE</version>
                 <scope>provided</scope>
             </dependency>
+
             <!--End Spring 3.1.1-->
 
             <!--Begin spring-security-oauth2-->
@@ -298,7 +299,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-taglibs</artifactId>
-                <version>4.0.1.RELEASE</version>
+                <version>4.1.4.RELEASE</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
