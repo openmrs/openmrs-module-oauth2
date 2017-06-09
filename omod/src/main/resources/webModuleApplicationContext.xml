@@ -227,9 +227,9 @@
     <!--==========================================================================================-->
     <!--Default Token Store. Replace with JdbcTokenStore to persist tokens in module's database-->
     <!--==========================================================================================-->
-    <!--<bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore"/>-->
+    <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore"/>
 
-    <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.JdbcTokenStore">
+    <!--<bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.JdbcTokenStore">
         <constructor-arg ref="jdbcTemplate"/>
     </bean>
 
@@ -239,7 +239,7 @@
         <property name="url" value="jdbc:mysql://localhost:3306/openmrs"/>
         <property name="username" value="root"/>
         <property name="password" value="root"/>
-    </bean>
+    </bean>-->
     <!--=============================================================================-->
     <!--Default Token Service to manage tokens. Wire up with custom JdbcTokenStore-->
     <!--=============================================================================-->
