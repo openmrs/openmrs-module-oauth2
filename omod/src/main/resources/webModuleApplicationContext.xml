@@ -167,7 +167,7 @@
     <!--==================================================================================-->
     <bean id="userApprovalHandler"
           class="org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler">
-        <property name="tokenServices" ref="tokenServices"/>
+        <property name="tokenStore" ref="tokenStore"/>
     </bean>
     <!--==============================-->
     <!--OAuth2 Authorization Server-->
