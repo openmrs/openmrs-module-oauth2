@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.provider.ClientRegistrationException;
  */
 public class ClientDetailsServiceImpl implements ClientDetailsService {
     public static final String REQUEST_SOURCE = ClientDetailsService.class.getName();
+
     @Autowired
     private ClientDAO dao;
 

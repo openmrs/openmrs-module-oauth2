@@ -106,43 +106,43 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
                 <!--TODO add ${spring.version} if possible. Logically not possible as module does not know where it is being installed}-->
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-tx</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aop</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -252,7 +252,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
@@ -268,7 +268,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
@@ -284,7 +284,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-config</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
@@ -299,7 +299,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-taglibs</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
@@ -376,7 +376,7 @@
                                 </goals>
                                 <configuration>
                                     <tasks>
-                                        <copy todir="E:/Projects/GSoC 15/OpenMRS/OpenMRS IntellijIdea/openmrs-core/webapp/src/main/webapp/WEB-INF/view/module/${project.parent.artifactId}">
+                                        <copy todir="F/Projects/GSoC 17/OpenMRS/OpenMRS IntellijIdea/openmrs-core/webapp/src/main/webapp/WEB-INF/view/module/${project.parent.artifactId}">
                                             <fileset dir="src/main/webapp" includes="**/*"/>
                                         </copy>
                                     </tasks>
