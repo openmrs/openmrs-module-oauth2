@@ -1,4 +1,4 @@
-package org.openmrs.module.oauth2.api.model;
+package org.openmrs.module.oauth2.api.model.smart;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +9,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.openmrs.module.oauth2.Client;
+import org.openmrs.module.oauth2.api.model.Parametrized;
 
 /**
  * Model (MVC) for Oauth Client.
