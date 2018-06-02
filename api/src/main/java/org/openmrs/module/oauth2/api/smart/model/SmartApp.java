@@ -1,4 +1,4 @@
-package org.openmrs.module.oauth2.api.model.smart;
+package org.openmrs.module.oauth2.api.smart.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +24,7 @@ public class SmartApp implements Parametrized {
 	private Integer smartId;
 
 	@OneToOne
-	@JoinColumn(name = "client_id", nullable = false, updatable = false, insertable = true)
+	@JoinColumn(name = "client_id", updatable = false)
 	private Client client;
 
 	@Column(name = "launch_url")

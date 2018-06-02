@@ -1,4 +1,4 @@
-package org.openmrs.module.oauth2.api.model.smart;
+package org.openmrs.module.oauth2.api.smart.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,6 @@ import javax.persistence.Table;
 
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.model.Parametrized;
-import org.openmrs.module.oauth2.api.model.smart.SmartApp;
 
 /**
  * Model class for Launch url of SMART Apps.
@@ -25,7 +24,7 @@ public class LaunchValue implements Parametrized {
 	private int id;
 
 	@OneToOne
-	@JoinColumn(name = "smart_id", nullable = false, updatable = false, insertable = true)
+	@JoinColumn(name = "smart_id", updatable = false)
 	private SmartApp smartApp;
 
 	@Column(name = "launch_value")
@@ -34,7 +33,8 @@ public class LaunchValue implements Parametrized {
 	public LaunchValue() {
 	}
 
-	public LaunchValue(String launchValue) {
+	public LaunchValue(SmartApp smartApp, String launchValue) {
+		this.smartApp = smartApp;
 		this.launchValue = launchValue;
 	}
 

@@ -23,6 +23,9 @@
                 <value>org.openmrs.module.oauth2</value>
                 <value>org.openmrs.module.oauth2.api.db</value>
                 <value>org.openmrs.module.oauth2.api.db.hibernate</value>
+				<value>org.openmrs.module.oauth2.api.smart</value>
+				<value>org.openmrs.module.oauth2.api.smart.db</value>
+				<value>org.openmrs.module.oauth2.api.smart.db.hibernate</value>
             </list>
         </property>
         <!--  default properties must be set in the hibernate.default.properties -->
