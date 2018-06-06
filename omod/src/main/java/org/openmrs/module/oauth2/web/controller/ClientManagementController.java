@@ -1,5 +1,9 @@
 package org.openmrs.module.oauth2.web.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
@@ -11,6 +15,10 @@ import org.openmrs.module.oauth2.api.db.hibernate.ClientDAO;
 import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
 import org.openmrs.module.oauth2.api.model.RedirectURI;
 import org.openmrs.module.oauth2.api.model.Scope;
+import org.openmrs.module.oauth2.api.smart.JsonMappableSmartApp;
+import org.openmrs.module.oauth2.api.smart.SmartAppManagementService;
+import org.openmrs.module.oauth2.api.smart.db.hibernate.SmartAppDAO;
+import org.openmrs.module.oauth2.api.smart.model.SmartApp;
 import org.openmrs.module.oauth2.api.util.ClientSpringOAuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,10 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Sanatt on 23-07-2017.
@@ -36,33 +40,50 @@ public class ClientManagementController {
 	@Autowired
 	private ClientDAO dao;
 
-	/*
+	@Autowired
+	private SmartAppDAO smartAppDAO;
+
+	/**
 	 *See all registered clients for a particular OpenMRS user
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.GET,
 			params = { "username", "password" })
-	public ResponseEntity<List<JsonMappableClient>> listAllUsers(String username, String password) {
+	public ResponseEntity<List<JsonMappableClient>> listAllUsers(String username, String password,
+			@RequestParam(value = "isSmart", required = false) boolean isSmart) {
 		if (!verifyUserCredentials(username, password))
 			return new ResponseEntity<List<JsonMappableClient>>((List<JsonMappableClient>) null, HttpStatus.UNAUTHORIZED);
 		User openmrsUser = Context.getUserService().getUserByUsername(username);
-		List<Client> clients = dao.getAllClientsForClientDeveloper(openmrsUser);
-		if (clients.isEmpty()) {
-			return new ResponseEntity<List<JsonMappableClient>>(HttpStatus.NO_CONTENT);
-		}
-		List<JsonMappableClient> jsonMappableClients = new ArrayList<>();
-		for (Client c : clients) {
-			jsonMappableClients.add(new JsonMappableClient(c));
-		}
 
-		return new ResponseEntity<List<JsonMappableClient>>(jsonMappableClients, HttpStatus.OK);
+		if (isSmart) {
+			List<SmartApp> smartApps = getSmartService().loadSmartAppsForClientDeveloper(openmrsUser);
+			if (smartApps.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			List<JsonMappableClient> jsonMappableSmartApps = new ArrayList<>();
+			for (SmartApp smartApp : smartApps) {
+				jsonMappableSmartApps.add(new JsonMappableSmartApp(smartApp));
+			}
+			return new ResponseEntity<>(jsonMappableSmartApps, HttpStatus.OK);
+		} else {
+			List<Client> clients = dao.getAllClientsForClientDeveloper(openmrsUser);
+			if (clients.isEmpty()) {
+				return new ResponseEntity<List<JsonMappableClient>>(HttpStatus.NO_CONTENT);
+			}
+			List<JsonMappableClient> jsonMappableClients = new ArrayList<>();
+			for (Client c : clients) {
+				jsonMappableClients.add(new JsonMappableClient(c));
+			}
+			return new ResponseEntity<List<JsonMappableClient>>(jsonMappableClients, HttpStatus.OK);
+		}
 	}
 
-	/*
+	/**
 	 *See all registered clients for a particular OpenMRS user
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.GET,
 			params = { "username", "password", "client_id" })
-	public ResponseEntity<JsonMappableClient> listAUsers(String client_id, String username, String password) {
+	public ResponseEntity<JsonMappableClient> listAUsers(String client_id, String username, String password,
+			@RequestParam(value = "isSmart", required = false) boolean isSmart) {
 		if (!verifyUserCredentials(username, password))
 			return new ResponseEntity<JsonMappableClient>((JsonMappableClient) null, HttpStatus.UNAUTHORIZED);
 
@@ -71,10 +92,15 @@ public class ClientManagementController {
 		User openmrsUser = Context.getUserService().getUserByUsername(username);
 		if (clientDeveloper != openmrsUser)
 			return new ResponseEntity<JsonMappableClient>((JsonMappableClient) null, HttpStatus.UNAUTHORIZED);
-		return new ResponseEntity<JsonMappableClient>(new JsonMappableClient(client), HttpStatus.OK);
+		if (isSmart) {
+			SmartApp smartApp = smartAppDAO.loadSmartAppByClientId(client.getId());
+			return new ResponseEntity<JsonMappableClient>(new JsonMappableSmartApp(smartApp), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<JsonMappableClient>(new JsonMappableClient(client), HttpStatus.OK);
+		}
 	}
 
-	/*
+	/**
 	* Register a new client
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.POST,
@@ -82,7 +108,8 @@ public class ClientManagementController {
 	public ResponseEntity<JsonMappableClient> createNewUser(String username, String password, String name,
 			String description,
 			String website, String redirectionUri, String clientType,
-			String[] scopes, String[] grantTypes) {
+			String[] scopes, String[] grantTypes, @RequestParam(value = "isSmart", required = false) boolean isSmart,
+			@RequestParam(value = "launchUrl", required = false) String launchUrl) {
 
 
 		if (!verifyUserCredentials(username, password))
@@ -117,39 +144,62 @@ public class ClientManagementController {
 		getService().generateAndPersistClientCredentials(client);
 		getService().saveOrUpdateClient(client);
 
-		System.out.println("***Client Creared");
+		System.out.println("***Client Created");
 
-		JsonMappableClient jsonMappableClient = new JsonMappableClient(client);
+		if (isSmart) {
 
-		return new ResponseEntity<JsonMappableClient>(jsonMappableClient, HttpStatus.CREATED);
+			SmartApp smartApp = getNewSmartApp();
+
+			smartApp.setClient(client);
+			smartApp.setLaunchUrl(launchUrl);
+
+			smartApp = getSmartService().saveOrUpdateSmartApp(smartApp);
+
+			JsonMappableSmartApp jsonMappableSmartApp = new JsonMappableSmartApp(smartApp);
+			return new ResponseEntity<JsonMappableClient>(jsonMappableSmartApp, HttpStatus.CREATED);
+		} else {
+			JsonMappableClient jsonMappableClient = new JsonMappableClient(client);
+			return new ResponseEntity<JsonMappableClient>(jsonMappableClient, HttpStatus.CREATED);
+		}
+
 	}
 
-	/*
+	/**
 	* Delete or Unregister an oauth client
 	* @param client_id The client identifier
 	* @param client_secret The client secret
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.DELETE,
 			params = { "client_id", "client_secret" })
-	public ResponseEntity<String> deleteUser(String client_id, String client_secret) {
+	public ResponseEntity<String> deleteUser(String client_id, String client_secret,
+			@RequestParam(value = "isSmart", required = false) boolean isSmart) {
 		//verify the credentials
 		Client tempClient = new Client(client_id, client_secret, null, null, null, null, null);
 		List<String> encodedCredentials = clientRegistrationService.encodeCredentials(tempClient);
 		Client client = (Client) dao.loadClientByClientId(client_id);
 		if (!clientRegistrationService.verifyClientCredentials(client, encodedCredentials.get(0), encodedCredentials.get(1)))
 			return new ResponseEntity<String>("Bad credentials", HttpStatus.UNAUTHORIZED);
-		getService().unregisterClient(client);
-		return new ResponseEntity<String>("Client deleted", HttpStatus.OK);
+
+		if (isSmart) {
+			SmartApp smartApp = smartAppDAO.loadSmartAppByClientId(client.getId());
+			getSmartService().unregisterSmartApp(smartApp);
+			getService().unregisterClient(client);
+			return new ResponseEntity<>("Smart Client deleted", HttpStatus.OK);
+		} else {
+			getService().unregisterClient(client);
+			return new ResponseEntity<String>("Client deleted", HttpStatus.OK);
+		}
+
 	}
 
-	/*
+	/**
 	* Delete or Unregister an oauth client
 	* @param client_id The client identifier
-	* @param client_secret The client secret
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.DELETE,
 			params = { "client_id", "username", "password" })
-	public ResponseEntity<String> deleteUser(String client_id, String username, String password) {
+	public ResponseEntity<String> deleteUser(String client_id, String username, String password,
+			@RequestParam(value = "isSmart", required = false) boolean isSmart) {
 		if (!verifyUserCredentials(username, password))
 			return new ResponseEntity<String>("Bad User Credentials", HttpStatus.UNAUTHORIZED);
 
@@ -158,8 +208,16 @@ public class ClientManagementController {
 		User openmrsUser = Context.getUserService().getUserByUsername(username);
 		if (clientDeveloper != openmrsUser)
 			return new ResponseEntity<String>("Invalid client developer", HttpStatus.UNAUTHORIZED);
-		getService().unregisterClient(client);
-		return new ResponseEntity<String>("Client deleted", HttpStatus.OK);
+
+		if (isSmart) {
+			SmartApp smartApp = smartAppDAO.loadSmartAppByClientId(client.getId());
+			getSmartService().unregisterSmartApp(smartApp);
+			getService().unregisterClient(client);
+			return new ResponseEntity<>("Smart Client deleted", HttpStatus.OK);
+		} else {
+			getService().unregisterClient(client);
+			return new ResponseEntity<String>("Client deleted", HttpStatus.OK);
+		}
 	}
 
 	/*
@@ -173,11 +231,20 @@ public class ClientManagementController {
 		return client;
 	}
 
+	public SmartApp getNewSmartApp() {
+		SmartApp smartApp = new SmartApp(null, null);
+		return smartApp;
+	}
+
 	public ClientRegistrationService getService() {
 		return Context.getService(ClientRegistrationService.class);
 	}
 
-	/*
+	public SmartAppManagementService getSmartService() {
+		return Context.getService(SmartAppManagementService.class);
+	}
+
+	/**
 	* Verifies OpenMRS user credentials
 	 */
 	private boolean verifyUserCredentials(String username, String password) {
