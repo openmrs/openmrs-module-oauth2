@@ -206,5 +206,15 @@
                                  referencedColumnNames="smart_id"/>
     </changeSet>
 
+    <changeSet id="oauth2-201806080118" author="Prabodh">
+        <dropTable tableName="oauth2_smart_app_launch"></dropTable>
+        <createTable tableName="oauth2_smart_app_launch">
+            <column name="smart_id" type="integer">
+                <constraints nullable="false" primaryKey="true"></constraints>
+            </column>
+            <column name="launch_value" type="varchar(38)"></column>
+        </createTable>
+    </changeSet>
+
 
 </databaseChangeLog>

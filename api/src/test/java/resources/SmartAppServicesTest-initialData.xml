@@ -21,7 +21,7 @@
 	<oauth2_smart_app smart_id="1" client_id="1" launch_url="http://someurl.com"
 	/>
 
-	<oauth2_smart_app_launch id="1" smart_id="1" launch_value="someLaunchValue"
+	<oauth2_smart_app_launch smart_id="1" launch_value="someLaunchValue"
 	/>
 
 </dataset>

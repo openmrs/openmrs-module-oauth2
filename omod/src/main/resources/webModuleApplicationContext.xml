@@ -124,6 +124,19 @@
     </security:http>
 
     <!--=============================================================-->
+    <!--Spring http security for Run SMART Applications REST Controller-->
+    <!--By default CSRF is enabled in Spring Security 4-->
+    <!--Add appropriate csrf headers to the request if you enable csrf-->
+    <!--==============================================================-->
+    <security:http pattern="/module/oauth2/runSmartApps/runSmart.form" create-session="stateless"
+                   authentication-manager-ref="clientControllerAuthenticationManager"
+                   use-expressions="true">
+        <security:intercept-url pattern="/oauth2/runSmartApps/runSmart.form" access="IS_AUTHENTICATED_FULLY"/>
+        <security:http-basic/>
+        <security:csrf disabled="true"/>
+    </security:http>
+
+    <!--=============================================================-->
     <!--Spring http security for Module Metadata REST Controller-->
     <!--By default CSRF is enabled in Spring Security 4-->
     <!--Add appropriate csrf headers to the request if you enable csrf-->
@@ -259,7 +272,7 @@
     <!-- =========================== -->
     <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices"
                                 user-approval-handler-ref="userApprovalHandler" token-endpoint-url="/oauth2/token"
-                                user-approval-page="/module/oauth2/access_confirmation"
+                                user-approval-page="forward:/ws/oauth/confirm_access"
                                 authorization-endpoint-url="/oauth2/authorize"
                                 approval-parameter-name="user_oauth_approval"
                                 error-page="/module/oauth2/oauth_error">

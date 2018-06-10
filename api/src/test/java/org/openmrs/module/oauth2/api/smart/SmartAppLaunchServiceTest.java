@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.oauth2.Client;
+import org.openmrs.module.oauth2.api.ClientRegistrationService;
 import org.openmrs.module.oauth2.api.smart.model.LaunchValue;
 import org.openmrs.module.oauth2.api.smart.model.SmartApp;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
@@ -21,6 +22,14 @@ public class SmartAppLaunchServiceTest extends BaseModuleContextSensitiveTest {
 		return Context.getService(SmartAppLaunchService.class);
 	}
 
+	public SmartAppManagementService getSmartService() {
+		return Context.getService(SmartAppManagementService.class);
+	}
+
+	public ClientRegistrationService getClientService() {
+		return Context.getService(ClientRegistrationService.class);
+	}
+
 	@Before
 	public void runBeforeEachTest() throws Exception {
 		executeDataSet(SMART_APP_LAUNCH_INITIAL_DATA_XML);
@@ -30,7 +39,7 @@ public class SmartAppLaunchServiceTest extends BaseModuleContextSensitiveTest {
 	public void saveOrUpdateLaunchValue_shouldSaveNewLaunchValueUpdateExistingLaunchValue() {
 		LaunchValue launchValue = createSampleLaunchValue();
 		getService().saveOrUpdateLaunchValue(launchValue);
-		launchValue = getService().getLaunchValue(launchValue.getId());
+		launchValue = getService().getLaunchValue(launchValue.getSmartApp().getSmartId());
 		Assert.assertNotNull(launchValue);
 	}
 
@@ -95,7 +104,9 @@ public class SmartAppLaunchServiceTest extends BaseModuleContextSensitiveTest {
 		client.setDateCreated(new Date());
 		client.setName("Demo Application");
 		client.setClientType(Client.ClientType.WEB_APPLICATION);
+		getClientService().saveOrUpdateClient(client);
 		SmartApp smartApp = new SmartApp(client, "http://demoLaunchUrl.com");
+		getSmartService().saveOrUpdateSmartApp(smartApp);
 		LaunchValue launchValue = new LaunchValue(smartApp, TEST_LAUNCH_VALUE);
 		return launchValue;
 	}

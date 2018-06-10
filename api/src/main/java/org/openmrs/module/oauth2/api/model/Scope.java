@@ -1,10 +1,18 @@
 package org.openmrs.module.oauth2.api.model;
 
-import org.openmrs.module.oauth2.Client;
-
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.openmrs.module.oauth2.Client;
 
 /**
  * Created by OPSKMC on 8/19/15.
@@ -39,9 +47,11 @@ public class Scope implements Parametrized {
     public static List<Scope> getAllSupportedScopes(){
         Scope readScope = new Scope("read");
         Scope writeScope = new Scope("write");
+        Scope launchScope = new Scope("launch");
         List<Scope> scopeList = new ArrayList<Scope>();
         scopeList.add(readScope);
         scopeList.add(writeScope);
+        scopeList.add(launchScope);
         return scopeList;
     }
     public int getId() {

@@ -30,7 +30,7 @@ public class SmartAppLaunchServiceImpl extends BaseOpenmrsService implements Sma
 	@Transactional(readOnly = true)
 	@Override
 	public LaunchValue getLaunchValue(Integer smartId) {
-		return launchValueDAO.getById(smartId);
+		return launchValueDAO.getLaunchValueBySmartId(smartId);
 	}
 
 	@Transactional
