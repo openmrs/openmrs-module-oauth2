@@ -1,19 +1,32 @@
 package org.openmrs.module.oauth2;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import org.openmrs.BaseOpenmrsData;
-import org.openmrs.User;
-import org.openmrs.module.oauth2.api.model.*;
+import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
+import org.openmrs.module.oauth2.api.model.CustomGrantedAuthority;
+import org.openmrs.module.oauth2.api.model.RedirectURI;
+import org.openmrs.module.oauth2.api.model.Resource;
+import org.openmrs.module.oauth2.api.model.Scope;
 import org.openmrs.module.oauth2.api.util.ClientSpringOAuthUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.util.StringUtils;
-
-import javax.persistence.*;
-import javax.validation.constraints.Null;
-import java.util.*;
 
 /**
  * Model (MVC) for Oauth Client.
@@ -132,7 +145,7 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
     }
 
     public enum ClientType {
-        WEB_APPLICATION, USER_AGENT_BASED_APPLICATION, NATIVE_APPLICATION;
+        WEB_APPLICATION, USER_AGENT_BASED_APPLICATION, NATIVE_APPLICATION, SMART_APPLICATION;
     }
 
     public String getName() {

@@ -13,11 +13,11 @@
  */
 package org.openmrs.module.oauth2.extension.html;
 
-import org.openmrs.module.Extension;
-import org.openmrs.module.web.extension.AdministrationSectionExt;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import org.openmrs.module.Extension;
+import org.openmrs.module.web.extension.AdministrationSectionExt;
 
 /**
  * This class defines the links that will appear on the administration page under the
@@ -44,7 +44,8 @@ public class AdminList extends AdministrationSectionExt {
 	 */
 	public Map<String, String> getLinks() {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map.put("module/oauth2/registeredClient/index.htm", "oauth2.manage.registered");
+		//map.put("module/oauth2/registeredClient/index.htm", "oauth2.manage.registered");
+		map.put("module/oauth2/runSmartApps/runSmart.form", "oauth2.run.smart");
 		return map;
 	}
 

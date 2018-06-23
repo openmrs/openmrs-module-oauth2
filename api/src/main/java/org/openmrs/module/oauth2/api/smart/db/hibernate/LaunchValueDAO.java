@@ -26,7 +26,7 @@ public class LaunchValueDAO extends HibernateSmartDAO<LaunchValue> {
 	}
 
 	public LaunchValue getLaunchValueForSmartApp(SmartApp smartApp) {
-		String queryString = "from org.openmrs.module.oauth2.api.smart.model.LaunchValue where smartId = :smartId";
+		String queryString = "from org.openmrs.module.oauth2.api.smart.model.LaunchValue where smartApp.smartId = :smartId";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(queryString);
 		query.setParameter("smartId", smartApp.getSmartId());
@@ -37,7 +37,7 @@ public class LaunchValueDAO extends HibernateSmartDAO<LaunchValue> {
 	}
 
 	public LaunchValue getLaunchValueBySmartId(Integer smartId) {
-		String queryString = "from org.openmrs.module.oauth2.api.smart.model.SmartApp where smartId = :smartId";
+		String queryString = "from org.openmrs.module.oauth2.api.smart.model.LaunchValue where smartApp.smartId = :smartId";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(queryString);
 		query.setParameter("smartId", smartId);

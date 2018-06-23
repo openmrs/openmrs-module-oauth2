@@ -3,7 +3,6 @@ package org.openmrs.module.oauth2.api.smart.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -20,9 +19,6 @@ import org.openmrs.module.oauth2.api.model.Parametrized;
 public class LaunchValue implements Parametrized {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-
 	@OneToOne
 	@JoinColumn(name = "smart_id", updatable = false)
 	private SmartApp smartApp;
@@ -36,14 +32,6 @@ public class LaunchValue implements Parametrized {
 	public LaunchValue(SmartApp smartApp, String launchValue) {
 		this.smartApp = smartApp;
 		this.launchValue = launchValue;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public SmartApp getSmartApp() {
