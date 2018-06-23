@@ -48,10 +48,20 @@ public class Scope implements Parametrized {
         Scope readScope = new Scope("read");
         Scope writeScope = new Scope("write");
         Scope launchScope = new Scope("launch");
+        Scope patientReadScope = new Scope("patient/*.read");
+        Scope patientWriteScope = new Scope("patient/*.write");
+        Scope patientReadWriteScope = new Scope("patient/*.*");
+        Scope profileScope = new Scope("profile");
+        Scope openidScope = new Scope("openid");
         List<Scope> scopeList = new ArrayList<Scope>();
         scopeList.add(readScope);
         scopeList.add(writeScope);
         scopeList.add(launchScope);
+        scopeList.add(patientReadScope);
+        scopeList.add(patientWriteScope);
+        scopeList.add(patientReadWriteScope);
+        scopeList.add(profileScope);
+        scopeList.add(openidScope);
         return scopeList;
     }
     public int getId() {

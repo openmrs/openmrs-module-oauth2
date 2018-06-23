@@ -141,13 +141,14 @@
     <!--By default CSRF is enabled in Spring Security 4-->
     <!--Add appropriate csrf headers to the request if you enable csrf-->
     <!--==============================================================-->
-    <security:http pattern="/ws/oauth/metadata" create-session="stateless"
+    <!--security:http pattern="/ws/oauth/metadata" create-session="stateless"
                    authentication-manager-ref="clientControllerAuthenticationManager"
                    use-expressions="true">
         <security:intercept-url pattern="/oauth/metadata" access="IS_AUTHENTICATED_FULLY"/>
-        <security:http-basic/>
+        <security:http-basic entry-point-ref="UserAuthenticationEntryPoint"/>
         <security:csrf disabled="true"/>
-    </security:http>
+    </security:http-->
+    <security:http pattern="/ws/oauth/metadata" security="none"/>
 
     <!--==============================================-->
     <!--Spring http security for Token Endpoint-->
@@ -188,18 +189,23 @@
         <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
     </security:http>
 
+    <!--security:http pattern="/login.htm" security="none"/-->
+
     <!--User Login Page used prior to Authorization Code Grant Type-->
     <!--TODO Currently using form-login, replace with custom login form-->
     <http disable-url-rewriting="false"
           xmlns="http://www.springframework.org/schema/security"
           use-expressions="false">
-        <access-denied-handler error-page="/login.jsp?authorization_error=true"/>
+        <access-denied-handler error-page="/referenceapplication/login.page?authorization_error=true"/>
         <intercept-url pattern="/ws/oauth/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/ws/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/ms/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <http-basic entry-point-ref="UserAuthenticationEntryPoint"/>
         <headers disabled="false"/>
-        <form-login/>
+        <!--form-login/-->
+        <form-login login-page="/login.htm" default-target-url="/referenceapplication/home.page"
+                    login-processing-url="/login.htm" authentication-failure-url="/referenceapplication/login.page"/>
     </http>
 
 
