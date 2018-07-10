@@ -25,7 +25,11 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 			String scope = (String) object;
 			System.out.println(scope);
 			if(scope.contains("patient")){
-				additionalInfo.put("patient", authentication.getName());
+				//additionalInfo.put("patient", authentication.getName());
+				additionalInfo.put("patient", "39660707-574b-11e8-b5ce-a81e847f67bb");
+			}
+			if(scope.contains("user")){
+				additionalInfo.put("user",authentication.getName());
 			}
 		}
 		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
