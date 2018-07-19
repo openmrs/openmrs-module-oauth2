@@ -24,7 +24,6 @@
         background-color: #dddddd;
     }
 </style>
-
 <form id="runForm" method="post">
     <div class="box">
         <h1><span class="boxHeader">Registered SMART Apps</span></h1>
@@ -48,7 +47,7 @@
                         <td><c:out value="${smartApp.client.name}"/></td>
                         <td><c:out value="${smartApp.client.description}"/></td>
                         <td>${smartApp.launchUrl}</td>
-                        <td><input type="radio" name="runCheck" value="${smartApp.smartId}">(${smartApp.client.name})</td>
+                        <td><button type="submit" name="run" value="${smartApp.smartId}">Run</button></td>
                     </tr>
                 </c:forEach>
             </table>
@@ -56,7 +55,7 @@
     </div>
     <br/>
     <br/>
-    <input type="submit" value="Run">
+    <!--input type="submit" value="Run"-->
 </form>
 
 <%@ include file="/WEB-INF/template/footer.jsp" %>
