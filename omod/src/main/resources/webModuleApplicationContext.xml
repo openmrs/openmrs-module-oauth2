@@ -198,13 +198,14 @@
           xmlns="http://www.springframework.org/schema/security"
           use-expressions="false">
         <access-denied-handler error-page="/referenceapplication/login.page?authorization_error=true"/>
+        <!--access-denied-handler error-page="/login.htm?authorization_error=true"/-->
         <intercept-url pattern="/ws/oauth/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/ws/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/ms/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <http-basic entry-point-ref="UserAuthenticationEntryPoint"/>
         <headers disabled="false"/>
-        <!--form-login/-->
+        <form-login/>
         <form-login login-page="/login.htm" default-target-url="/referenceapplication/home.page"
                     login-processing-url="/login.htm" authentication-failure-url="/referenceapplication/login.page"/>
         <csrf disabled="true"/>
