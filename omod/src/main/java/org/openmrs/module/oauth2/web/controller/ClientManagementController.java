@@ -11,11 +11,13 @@ import org.openmrs.api.context.ContextAuthenticationException;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
 import org.openmrs.module.oauth2.api.JsonMappableClient;
+import org.openmrs.module.oauth2.api.JsonMappableClientOwa;
 import org.openmrs.module.oauth2.api.db.hibernate.ClientDAO;
 import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
 import org.openmrs.module.oauth2.api.model.RedirectURI;
 import org.openmrs.module.oauth2.api.model.Scope;
 import org.openmrs.module.oauth2.api.smart.JsonMappableSmartApp;
+import org.openmrs.module.oauth2.api.smart.JsonMappableSmartAppOwa;
 import org.openmrs.module.oauth2.api.smart.SmartAppManagementService;
 import org.openmrs.module.oauth2.api.smart.db.hibernate.SmartAppDAO;
 import org.openmrs.module.oauth2.api.smart.model.SmartApp;
@@ -218,6 +220,22 @@ public class ClientManagementController {
 			getService().unregisterClient(client);
 			return new ResponseEntity<String>("Client deleted", HttpStatus.OK);
 		}
+	}
+
+	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.GET)
+	public ResponseEntity<List<JsonMappableClientOwa>> listAllUsers() {
+		User openmrsUser = Context.getUserContext().getAuthenticatedUser();
+		System.out.println("This user : "+openmrsUser);
+		List<SmartApp> smartApps = getSmartService().loadSmartAppsForClientDeveloper(openmrsUser);
+		if (smartApps.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		List<JsonMappableClientOwa> jsonMappableSmartApps = new ArrayList<>();
+		for (SmartApp smartApp : smartApps) {
+			jsonMappableSmartApps.add(new JsonMappableSmartAppOwa(smartApp));
+		}
+		return new ResponseEntity<>(jsonMappableSmartApps, HttpStatus.OK);
+
 	}
 
 	/*

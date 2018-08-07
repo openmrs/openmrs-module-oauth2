@@ -36,7 +36,7 @@ public class RunSmartAppController {
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView onSubmit(HttpServletRequest request) {
 
-		String str = request.getParameter("runCheck");
+		String str = request.getParameter("run");
 		Integer smartId = Integer.parseInt(str);
 
 		SmartApp smartApp = getSmartService().getSmartApp(smartId);
