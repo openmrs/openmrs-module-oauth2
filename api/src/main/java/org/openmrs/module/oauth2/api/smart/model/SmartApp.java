@@ -12,7 +12,7 @@ import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.model.Parametrized;
 
 /**
- * Model (MVC) for Oauth Client.
+ * Model class for SMART App.
  */
 @Entity
 @Table(name = "oauth2_smart_app")

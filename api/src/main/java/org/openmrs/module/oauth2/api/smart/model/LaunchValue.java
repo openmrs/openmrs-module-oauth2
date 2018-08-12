@@ -12,7 +12,7 @@ import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.model.Parametrized;
 
 /**
- * Model class for Launch url of SMART Apps.
+ * Model class for Launch Value of SMART Apps.
  */
 @Entity
 @Table(name = "oauth2_smart_app_launch")
@@ -29,6 +29,10 @@ public class LaunchValue implements Parametrized {
 	public LaunchValue() {
 	}
 
+	/**
+	 * @param smartApp
+	 * @param launchValue
+	 */
 	public LaunchValue(SmartApp smartApp, String launchValue) {
 		this.smartApp = smartApp;
 		this.launchValue = launchValue;

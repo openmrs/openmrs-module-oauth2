@@ -15,10 +15,6 @@
   		    http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd
   		    http://www.springframework.org/schema/security
   		    http://www.springframework.org/schema/security/spring-security-4.0.xsd">
-    <!--
-                    http://www.springframework.org/schema/security
-                    http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
-        -->
 
     <!-- Add here beans related to the web context -->
     <!-- Annotation based controllers -->
@@ -116,51 +112,13 @@
     <!--Add appropriate csrf headers to the request if you enable csrf-->
     <!--==============================================================-->
     <security:http pattern="/ws/oauth/clientManagement" create-session="stateless"
-                   authentication-manager-ref="clientControllerAuthenticationManager"
+                   authentication-manager-ref="authenticationManager"
                    use-expressions="true">
         <security:intercept-url pattern="/oauth/clientManagement" access="IS_AUTHENTICATED_FULLY"/>
         <security:http-basic/>
         <security:csrf disabled="true"/>
     </security:http>
 
-    <!--=============================================================-->
-    <!--Spring http security for Run SMART Applications REST Controller-->
-    <!--By default CSRF is enabled in Spring Security 4-->
-    <!--Add appropriate csrf headers to the request if you enable csrf-->
-    <!--==============================================================-->
-    <security:http pattern="/module/oauth2/runSmartApps/runSmart.form" create-session="stateless"
-                   authentication-manager-ref="clientControllerAuthenticationManager"
-                   use-expressions="true">
-        <security:intercept-url pattern="/oauth2/runSmartApps/runSmart.form" access="IS_AUTHENTICATED_FULLY"/>
-        <security:http-basic/>
-        <security:csrf disabled="true"/>
-    </security:http>
-
-	<!--=============================================================-->
-	<!--Spring http security for Run SMART Applications REST Controller Register with MF mapping-->
-	<!--By default CSRF is enabled in Spring Security 4-->
-	<!--Add appropriate csrf headers to the request if you enable csrf-->
-	<!--==============================================================-->
-	<security:http pattern="/module/oauth2/runSmartApps/registerMF.form" create-session="stateless"
-				   authentication-manager-ref="clientControllerAuthenticationManager"
-				   use-expressions="true">
-		<security:intercept-url pattern="/oauth2/runSmartApps/registerMF.form" access="IS_AUTHENTICATED_FULLY"/>
-		<security:http-basic/>
-		<security:csrf disabled="true"/>
-	</security:http>
-
-	<!--=============================================================-->
-    <!--Spring http security for Module Metadata REST Controller-->
-    <!--By default CSRF is enabled in Spring Security 4-->
-    <!--Add appropriate csrf headers to the request if you enable csrf-->
-    <!--==============================================================-->
-    <!--security:http pattern="/ws/oauth/metadata" create-session="stateless"
-                   authentication-manager-ref="clientControllerAuthenticationManager"
-                   use-expressions="true">
-        <security:intercept-url pattern="/oauth/metadata" access="IS_AUTHENTICATED_FULLY"/>
-        <security:http-basic entry-point-ref="UserAuthenticationEntryPoint"/>
-        <security:csrf disabled="true"/>
-    </security:http-->
     <security:http pattern="/ws/oauth/metadata" security="none"/>
 
     <!--==============================================-->
@@ -203,10 +161,7 @@
         <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
     </security:http>
 
-    <!--security:http pattern="/login.htm" security="none"/-->
-
     <!--User Login Page used prior to Authorization Code Grant Type-->
-    <!--TODO Currently using form-login, replace with custom login form-->
     <http disable-url-rewriting="false"
           xmlns="http://www.springframework.org/schema/security"
           use-expressions="false">
@@ -216,11 +171,11 @@
         <intercept-url pattern="/ws/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/ms/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <http-basic entry-point-ref="UserAuthenticationEntryPoint"/>
+        <http-basic/>
         <headers disabled="false"/>
-        <form-login/>
         <form-login login-page="/login.htm" default-target-url="/referenceapplication/home.page"
                     login-processing-url="/login.htm" authentication-failure-url="/referenceapplication/login.page"/>
+        <!--form-login/-->
         <csrf disabled="true"/>
     </http>
 

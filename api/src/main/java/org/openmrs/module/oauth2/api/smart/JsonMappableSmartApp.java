@@ -5,6 +5,9 @@ import java.io.Serializable;
 import org.openmrs.module.oauth2.api.JsonMappableClient;
 import org.openmrs.module.oauth2.api.smart.model.SmartApp;
 
+/**
+ * JSON mappable SMART App for externally made request.
+ */
 public class JsonMappableSmartApp extends JsonMappableClient implements Serializable {
 
 	private Integer smartId;

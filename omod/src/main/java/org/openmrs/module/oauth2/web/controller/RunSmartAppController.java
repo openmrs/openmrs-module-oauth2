@@ -32,6 +32,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+/**
+ * Created by Prabodh during GSoC-2018.
+ */
 @Controller
 public class RunSmartAppController {
 
@@ -43,11 +46,17 @@ public class RunSmartAppController {
 
 	public static final String REGISTER_MF = "module/oauth2/runSmartApps/registerMF.form";
 
+	/**
+	 * Display SMART apps page
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = RUN_SMART_CONTROLLER)
 	public String showList() {
 		return RUN_SMART_VIEW;
 	}
 
+	/**
+	 * Run a SMART app
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = RUN_SMART_CONTROLLER)
 	public ModelAndView onSubmit(HttpServletRequest request) {
 
@@ -69,6 +78,9 @@ public class RunSmartAppController {
 		return new ModelAndView(new RedirectView(redirectURL));
 	}
 
+	/**
+	 * Register a SMART client/app using manifest file upload.
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = REGISTER_MF)
 	public String onSubmit(@RequestParam("mfFile") MultipartFile mfFile) {
 		if (!mfFile.isEmpty()) {

@@ -9,46 +9,45 @@ import org.openmrs.module.oauth2.api.smart.model.SmartApp;
 public interface SmartAppManagementService extends OpenmrsService {
 
 	/**
-	 * update details of the SMART app if exists, else create new SMART app
-	 *
 	 * @param smartApp
-	 * @should
+	 * @should update details of the SMART app if exists, else create new SMART app
 	 */
 	public SmartApp saveOrUpdateSmartApp(SmartApp smartApp);
 
 	/**
 	 * @param smartApp
+	 * @should update details of the SMART app
 	 */
 	public SmartApp updateSmartApp(SmartApp smartApp);
 
 	/**
 	 * @param smartId
-	 * @return
+	 * @return SMART App
 	 */
 	public SmartApp getSmartApp(Integer smartId);
 
 	/**
 	 * @param clientId
-	 * @return
+	 * @return SMART App
+	 * @should update details of the SMART app
 	 */
 	public SmartApp loadSmartAppByClientId(Integer clientId);
 
 	/**
 	 * @param clientDeveloper
-	 * @return
+	 * @return all SMART  apps for a given client developer
 	 */
 	public List<SmartApp> loadSmartAppsForClientDeveloper(User clientDeveloper);
 
 	/**
 	 * @param smartApp
-	 * @return
 	 * @should unregister a smartApp and clear footprint from database
 	 */
 	public SmartApp unregisterSmartApp(SmartApp smartApp);
 
 	/**
 	 * @param smartApp
-	 * @return
+	 * @should merge SMART app
 	 */
 	public SmartApp merge(SmartApp smartApp);
 
