@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import org.openmrs.module.oauth2.Client;
 
-/*
- * JSON Mappable OAuth client to remove cyclic dependencies while returning Client(s) as JSON
+/**
+ * JSON Mappable OAuth client for OWA initiated requests
  */
 public class JsonMappableClientOwa implements Serializable {
 

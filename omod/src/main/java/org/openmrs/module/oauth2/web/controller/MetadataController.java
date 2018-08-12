@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MetadataController {
 
-	/*
-	 * OAuth module metadata endpoint.
-	 * TODO Add support for automatic setting of Uris
+	/**
+	 * OAuth module metadata endpoint for SMART apps.
+	 * @return metadata in standard Conformance Statement format
 	 */
 	@RequestMapping(value = "/oauth/metadata", method = RequestMethod.GET)
 	public ResponseEntity<HashMap<String, Object>> getMetadata() {
@@ -76,6 +76,5 @@ public class MetadataController {
 		metadataMap.put("rest",restList);
 
 		return new ResponseEntity<HashMap<String, Object>>(metadataMap, HttpStatus.OK);
-		//return new ResponseEntity<HashMap<String,String>>(metadata, HttpStatus.OK);
 	}
 }

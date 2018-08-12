@@ -55,7 +55,15 @@
     </div>
     <br/>
     <br/>
-    <!--input type="submit" value="Run"-->
 </form>
+<!--form id="mfForm" method="post" enctype="multipart/form-data" action="registerMF.form">
+    <div>
+        <h5>Register New SMART App by uploading Manifest File</h5>
+        <div>
+            Upload Manifest.mf File : <input type="file" name="mfFile" form="mfForm"><br>
+            <input type="submit" name="mfFileBtn" form="mfForm">
+        </div>
+    </div>
+</form-->
 
 <%@ include file="/WEB-INF/template/footer.jsp" %>

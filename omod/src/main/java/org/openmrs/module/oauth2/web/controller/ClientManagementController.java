@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by Sanatt on 23-07-2017.
+ * Created by Sanatt on 23-07-2017 and modified by Prabodh during GSoC-2018.
  */
 @RestController
 public class ClientManagementController {
@@ -80,7 +80,7 @@ public class ClientManagementController {
 	}
 
 	/**
-	 *See all registered clients for a particular OpenMRS user
+	 *See a registered client for a particular OpenMRS user
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.GET,
 			params = { "username", "password", "client_id" })
@@ -103,7 +103,7 @@ public class ClientManagementController {
 	}
 
 	/**
-	* Register a new client
+	 * Register a new client
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.POST,
 			params = { "username", "password", "name", "redirectionUri", "clientType", "scopes", "grantTypes" })
@@ -167,9 +167,9 @@ public class ClientManagementController {
 	}
 
 	/**
-	* Delete or Unregister an oauth client
-	* @param client_id The client identifier
-	* @param client_secret The client secret
+	 * Delete or Unregister an oauth client
+	 * @param client_id The client identifier
+	 * @param client_secret The client secret
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.DELETE,
 			params = { "client_id", "client_secret" })
@@ -195,8 +195,8 @@ public class ClientManagementController {
 	}
 
 	/**
-	* Delete or Unregister an oauth client
-	* @param client_id The client identifier
+	 * Delete or Unregister an oauth client
+	 * @param client_id The client identifier
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.DELETE,
 			params = { "client_id", "username", "password" })
@@ -238,8 +238,8 @@ public class ClientManagementController {
 
 	}
 
-	/*
-	* Update an oauth client
+	/**
+	 * Update an oauth client
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.PUT,
 			params = { "client_id", "client_secret", })
@@ -263,7 +263,7 @@ public class ClientManagementController {
 	}
 
 	/**
-	* Verifies OpenMRS user credentials
+	 * Verifies OpenMRS user credentials
 	 */
 	private boolean verifyUserCredentials(String username, String password) {
 		try {

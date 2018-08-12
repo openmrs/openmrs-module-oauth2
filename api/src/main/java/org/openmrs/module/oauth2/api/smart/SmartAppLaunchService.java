@@ -6,34 +6,32 @@ import org.openmrs.module.oauth2.api.smart.model.LaunchValue;
 public interface SmartAppLaunchService extends OpenmrsService {
 
 	/**
-	 * update details of the SMART app if exists, else create new SMART app
-	 *
 	 * @param launchValue
-	 * @should
+	 * @should update details of the Launch Value if exists, else create new Launch Value.
 	 */
 	public LaunchValue saveOrUpdateLaunchValue(LaunchValue launchValue);
 
 	/**
 	 * @param launchValue
+	 * @should update details of the Launch Value
 	 */
 	public LaunchValue updateLaunchValue(LaunchValue launchValue);
 
 	/**
 	 * @param smartId
-	 * @return
+	 * @return Launch Value
 	 */
 	public LaunchValue getLaunchValue(Integer smartId);
 
 	/**
 	 * @param launchValue
-	 * @return
 	 * @should clear a launchValue footprint from database
 	 */
 	public LaunchValue clearLaunchValue(LaunchValue launchValue);
 
 	/**
 	 * @param launchValue
-	 * @return
+	 * @should merge Launch Value
 	 */
 	public LaunchValue merge(LaunchValue launchValue);
 
@@ -46,7 +44,7 @@ public interface SmartAppLaunchService extends OpenmrsService {
 
 	/**
 	 * @param launchValue
-	 * @return
+	 * @should verify Launch Value
 	 */
 
 	public boolean verifyLaunchValue(LaunchValue launchValue, String receivedLaunchValue);
