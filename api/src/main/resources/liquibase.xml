@@ -181,5 +181,40 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="oauth2-201805250049" author="Prabodh">
+        <createTable tableName="oauth2_smart_app">
+            <column name="smart_id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"></constraints>
+            </column>
+            <column name="client_id" type="integer"></column>
+            <column name="launch_url" type="varchar(256)"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="oauth2-201805251719" author="Prabodh">
+        <createTable tableName="oauth2_smart_app_launch">
+            <column name="smart_id" type="integer">
+                <constraints nullable="false" primaryKey="true"></constraints>
+            </column>
+            <column name="launch_value" type="varchar(38)"></column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="oauth2_smart_app" baseColumnNames="client_id"
+                                 constraintName="oauth2_smart_client_fk" referencedTableName="oauth2_client"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="oauth2_smart_app_launch" baseColumnNames="smart_id"
+                                 constraintName="oauth2_launch_smart_fk" referencedTableName="oauth2_smart_app"
+                                 referencedColumnNames="smart_id"/>
+    </changeSet>
+
+    <changeSet id="oauth2-201806080118" author="Prabodh">
+        <dropTable tableName="oauth2_smart_app_launch"></dropTable>
+        <createTable tableName="oauth2_smart_app_launch">
+            <column name="smart_id" type="integer">
+                <constraints nullable="false" primaryKey="true"></constraints>
+            </column>
+            <column name="launch_value" type="varchar(38)"></column>
+        </createTable>
+    </changeSet>
+
 
 </databaseChangeLog>

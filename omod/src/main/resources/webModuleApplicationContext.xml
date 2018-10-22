@@ -15,10 +15,6 @@
   		    http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd
   		    http://www.springframework.org/schema/security
   		    http://www.springframework.org/schema/security/spring-security-4.0.xsd">
-    <!--
-                    http://www.springframework.org/schema/security
-                    http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
-        -->
 
     <!-- Add here beans related to the web context -->
     <!-- Annotation based controllers -->
@@ -116,25 +112,14 @@
     <!--Add appropriate csrf headers to the request if you enable csrf-->
     <!--==============================================================-->
     <security:http pattern="/ws/oauth/clientManagement" create-session="stateless"
-                   authentication-manager-ref="clientControllerAuthenticationManager"
+                   authentication-manager-ref="authenticationManager"
                    use-expressions="true">
         <security:intercept-url pattern="/oauth/clientManagement" access="IS_AUTHENTICATED_FULLY"/>
         <security:http-basic/>
         <security:csrf disabled="true"/>
     </security:http>
 
-    <!--=============================================================-->
-    <!--Spring http security for Module Metadata REST Controller-->
-    <!--By default CSRF is enabled in Spring Security 4-->
-    <!--Add appropriate csrf headers to the request if you enable csrf-->
-    <!--==============================================================-->
-    <security:http pattern="/ws/oauth/metadata" create-session="stateless"
-                   authentication-manager-ref="clientControllerAuthenticationManager"
-                   use-expressions="true">
-        <security:intercept-url pattern="/oauth/metadata" access="IS_AUTHENTICATED_FULLY"/>
-        <security:http-basic/>
-        <security:csrf disabled="true"/>
-    </security:http>
+    <security:http pattern="/ws/oauth/metadata" security="none"/>
 
     <!--==============================================-->
     <!--Spring http security for Token Endpoint-->
@@ -148,6 +133,7 @@
         <!-- if http basic header is not supplied, authenticate clients directly via request parameters -->
         <security:custom-filter ref="clientControllerEndpointFilter" after="BASIC_AUTH_FILTER"/>
         <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
+        <security:csrf disabled="true"/>
     </security:http>
 
     <!--==============================================-->
@@ -176,17 +162,21 @@
     </security:http>
 
     <!--User Login Page used prior to Authorization Code Grant Type-->
-    <!--TODO Currently using form-login, replace with custom login form-->
     <http disable-url-rewriting="false"
           xmlns="http://www.springframework.org/schema/security"
           use-expressions="false">
-        <access-denied-handler error-page="/login.jsp?authorization_error=true"/>
+        <access-denied-handler error-page="/referenceapplication/login.page?authorization_error=true"/>
+        <!--access-denied-handler error-page="/login.htm?authorization_error=true"/-->
         <intercept-url pattern="/ws/oauth/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/ws/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/ms/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <http-basic entry-point-ref="UserAuthenticationEntryPoint"/>
+        <intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <http-basic/>
         <headers disabled="false"/>
-        <form-login/>
+        <form-login login-page="/login.htm" default-target-url="/referenceapplication/home.page"
+                    login-processing-url="/login.htm" authentication-failure-url="/referenceapplication/login.page"/>
+        <!--form-login/-->
+        <csrf disabled="true"/>
     </http>
 
 
@@ -259,7 +249,7 @@
     <!-- =========================== -->
     <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices"
                                 user-approval-handler-ref="userApprovalHandler" token-endpoint-url="/oauth2/token"
-                                user-approval-page="/module/oauth2/access_confirmation"
+                                user-approval-page="forward:/ws/oauth/confirm_access"
                                 authorization-endpoint-url="/oauth2/authorize"
                                 approval-parameter-name="user_oauth_approval"
                                 error-page="/module/oauth2/oauth_error">
@@ -331,6 +321,8 @@
         <property name="password" value="root"/>
     </bean>
 
+    <bean id="tokenEnhancer" class="org.openmrs.module.oauth2.web.util.CustomTokenEnhancer" />
+
     <!--=============================================================================-->
     <!--Default Token Service to manage tokens. Wire up with custom JdbcTokenStore-->
     <!--=============================================================================-->
@@ -338,6 +330,7 @@
         <property name="tokenStore" ref="tokenStore"/>
         <property name="supportRefreshToken" value="true"/>
         <property name="clientDetailsService" ref="clientDetails"/>
+        <property name="tokenEnhancer" ref="tokenEnhancer"/>
     </bean>
 
     <!--====================================================================================-->

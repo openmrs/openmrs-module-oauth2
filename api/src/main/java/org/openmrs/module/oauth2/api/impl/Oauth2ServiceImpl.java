@@ -20,6 +20,7 @@ import org.openmrs.module.oauth2.api.Oauth2Service;
 import org.openmrs.module.oauth2.api.db.Oauth2DAO;
 import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
 import org.openmrs.module.oauth2.api.model.Scope;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 

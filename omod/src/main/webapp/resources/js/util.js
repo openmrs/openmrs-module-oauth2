@@ -9,7 +9,7 @@
  */
 function checkBoxToCSV(checkBoxName) {
     var allOptions = document.getElementsByName(checkBoxName);
-    var selectedOptions = ""
+    var selectedOptions = "";
     for (var i = 0; i < allOptions.length; i++) {
         if (allOptions[i].checked) {
             selectedOptions += allOptions[i].value + ",";

@@ -18,13 +18,13 @@
                     </property>
                     <property name="target">
                         <bean class="${project.parent.groupId}.${project.parent.artifactId}.api.impl.Oauth2ServiceImpl">
-                            <property name="dao">
+                            <!--property name="dao">
                                 <bean class="${project.parent.groupId}.${project.parent.artifactId}.api.db.hibernate.HibernateOauth2DAO">
                                     <property name="sessionFactory">
                                         <ref bean="sessionFactory"/>
                                     </property>
                                 </bean>
-                            </property>
+                            </property-->
                         </bean>
                     </property>
                     <property name="preInterceptors">
@@ -62,6 +62,62 @@
             </list>
         </property>
     </bean>
+
+	<!--SMART app management service-->
+	<bean id="smartAppManagementService"
+		  class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager"/>
+		</property>
+		<property name="target">
+			<bean class="org.openmrs.module.oauth2.api.smart.impl.SmartAppManagementServiceImpl">
+				<property name="clientDAO">
+					<bean class="org.openmrs.module.oauth2.api.db.hibernate.ClientDAO"/>
+				</property>
+			</bean>
+		</property>
+		<property name="preInterceptors">
+			<ref bean="serviceInterceptors"/>
+		</property>
+		<property name="transactionAttributeSource">
+			<ref bean="transactionAttributeSource"/>
+		</property>
+	</bean>
+
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list merge="true">
+				<value>${project.parent.groupId}.${project.parent.artifactId}.api.smart.SmartAppManagementService</value>
+				<ref local="smartAppManagementService"/>
+			</list>
+		</property>
+	</bean>
+
+	<!--SMART app Launch management service-->
+	<bean id="smartAppLaunchService"
+		  class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager"/>
+		</property>
+		<property name="target">
+			<bean class="org.openmrs.module.oauth2.api.smart.impl.SmartAppLaunchServiceImpl"/>
+		</property>
+		<property name="preInterceptors">
+			<ref bean="serviceInterceptors"/>
+		</property>
+		<property name="transactionAttributeSource">
+			<ref bean="transactionAttributeSource"/>
+		</property>
+	</bean>
+
+	<bean parent="serviceContext">
+		<property name="moduleService">
+			<list merge="true">
+				<value>${project.parent.groupId}.${project.parent.artifactId}.api.smart.SmartAppLaunchService</value>
+				<ref local="smartAppLaunchService"/>
+			</list>
+		</property>
+	</bean>
 
 
 </beans>

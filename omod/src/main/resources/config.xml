@@ -74,6 +74,19 @@
         </filter-mapping>
     -->
 
+    <!--LegacyUI-->
+
+    <aware_of_modules>
+        <aware_of_module>org.openmrs.module.legacyui</aware_of_module>
+    </aware_of_modules>
+
+    <extension>
+        <point>org.openmrs.admin.list</point>
+        <class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
+    </extension>
+
+    <!--/LegacyUI-->
+
     <!--spring security filter chain-->
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
