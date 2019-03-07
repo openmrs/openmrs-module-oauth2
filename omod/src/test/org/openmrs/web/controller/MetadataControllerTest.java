@@ -31,7 +31,7 @@ import org.junit.Test;
 
 import org.openmrs.module.Module;
 
-public class ModuleListControllerTest {
+public class MetadataControllerTest {
     
     @Before 
     public void setupTest() {
