@@ -202,6 +202,15 @@
             </exclusions>
         </dependency>
         <!--End spring security-->
+
+        <dependency>
+            <groupId>org.openmrs.api</groupId>
+            <artifactId>openmrs-api</artifactId>
+            <version>${openMRSVersion}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        
     </dependencies>
     <build>
         <resources>
