@@ -58,7 +58,7 @@
         <property name="moduleService">
             <list merge="true">
                 <value>${project.parent.groupId}.${project.parent.artifactId}.api.ClientRegistrationService</value>
-                <ref local="clientRegistrationService"/>
+                <ref bean="clientRegistrationService"/>
             </list>
         </property>
     </bean>
@@ -88,7 +88,7 @@
 		<property name="moduleService">
 			<list merge="true">
 				<value>${project.parent.groupId}.${project.parent.artifactId}.api.smart.SmartAppManagementService</value>
-				<ref local="smartAppManagementService"/>
+				<ref bean="smartAppManagementService"/>
 			</list>
 		</property>
 	</bean>
@@ -114,7 +114,7 @@
 		<property name="moduleService">
 			<list merge="true">
 				<value>${project.parent.groupId}.${project.parent.artifactId}.api.smart.SmartAppLaunchService</value>
-				<ref local="smartAppLaunchService"/>
+				<ref bean="smartAppLaunchService"/>
 			</list>
 		</property>
 	</bean>
